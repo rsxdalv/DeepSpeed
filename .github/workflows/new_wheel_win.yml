@@ -34,7 +34,8 @@ jobs:
       - name: Build the wheel
         # run: |
         #   ARCHFLAGS="-arch arm64" python setup.py bdist_wheel -d dist/
-        run: python setup.py bdist_wheel -d dist/
+        # run: python setup.py bdist_wheel -d dist/
+        run: build_win.bat
       # - name: Check the wheel
       #   run: delocate-listdeps dist/*.whl
       - run: du -h dist/*
