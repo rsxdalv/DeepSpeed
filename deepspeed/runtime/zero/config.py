@@ -4,7 +4,7 @@
 # DeepSpeed Team
 
 import sys
-from typing import Optional
+from typing import Optional, Dict, Any
 from enum import Enum
 from pydantic import Field, model_validator
 from deepspeed.runtime.config_utils import get_scalar_param, pp_int, DeepSpeedConfigModel
@@ -44,6 +44,8 @@ ZeRO optimization should be enabled as:
     "zero_quantized_gradients": [true|false],
     "memory_efficient_linear": [true|false],
     "override_module_apply": [true|false],
+    "zeropp_loco_param": {...},
+    "log_trace_cache_warnings" : [true|false],
     }
 }
 """
@@ -310,6 +312,16 @@ class DeepSpeedZeroConfig(DeepSpeedConfigModel):
     Boolean indicating whether to use quantized zero gradients
     for efficient all_2_all_reduce comm
     """
+    zeropp_loco_param: Optional[Dict[str, Any]] = None
+    """
+    This dictionary contains parameters for using LoCo-Zero++, with two key parameters:
+    - `err_beta`: A coefficient for the moving average of quantization errors before and after gradient computation.
+    It ranges between 0 and 1, with a default value of 0.8.
+    - `reset_T`: The number of steps after which the moving-average error buffer is cleared. The default value is 1024.
+    These parameters can be adjusted based on performance needs. Example configuration in ds config:
+    "zeropp_loco_param": { "err_beta": 0.8, "reset_T": 1024 }.
+    See LoCo paper for more details: (https://arxiv.org/abs/2407.04480).
+    """
 
     mics_shard_size: int = Field(-1, json_schema_extra={"new_param": "mics_shard_size"})
 
@@ -327,6 +339,11 @@ class DeepSpeedZeroConfig(DeepSpeedConfigModel):
     override_module_apply: bool = True
     """
     Override nn.Module apply function, for Stage 3.
+    """
+
+    log_trace_cache_warnings: bool = False
+    """
+    Whether to log warnings from trace cache, such as invalidation events.
     """
 
     # Validators
