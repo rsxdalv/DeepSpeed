@@ -59,7 +59,7 @@ jobs:
         run: Get-ChildItem -Recurse -Include build_win.bat
 
       - name: Build the wheel
-        # shell: bash -el {0}
+        shell: cmd
         run: build_win.bat
 
       - run: du -h dist/*
