@@ -32,7 +32,7 @@ jobs:
         run: |
           conda install -c https://software.repos.intel.com/python/conda/ -c conda-forge oneccl-devel
           python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
-          python -m pip install wheel ninja numpy psutil setuptools==72.2.0
+          python -m pip install wheel ninja numpy psutil build setuptools==72.2.0
 
       - name: Setup CUDA
         if: runner.os == 'Linux' || runner.os == 'Windows'
