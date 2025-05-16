@@ -11,6 +11,7 @@ set DS_BUILD_GDS=0
 set DS_BUILD_RAGGED_DEVICE_OPS=0
 set DS_BUILD_SPARSE_ATTN=0
 set DS_BUILD_DEEP_COMPILE=0
+set DS_ACCELERATOR=cuda
 
 python -m build --wheel --no-isolation
 
