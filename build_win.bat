@@ -11,8 +11,11 @@ set DS_BUILD_GDS=0
 set DS_BUILD_RAGGED_DEVICE_OPS=0
 set DS_BUILD_SPARSE_ATTN=0
 set DS_BUILD_DEEP_COMPILE=0
-set DS_ACCELERATOR=cuda
 
-python -m build --wheel --no-isolation
+set DS_ACCELERATOR=cuda
+set DS_BUILD_OPS=1
+
+@REM python -m build --wheel --no-isolation
+python -m build --wheel --no-isolation --config-setting="--build-option=build_ext" --config-setting="--build-option=-j8"
 
 :end
